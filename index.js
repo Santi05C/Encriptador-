@@ -1,8 +1,15 @@
+const btnCopiar = document.querySelector("#copiar");
+
 function encriptar() {
   let texto = document.getElementById("texto").value;
   let tituloMensaje = document.getElementById("titulo-mensaje");
   let parrafo = document.getElementById("parrafo");
   let muñeco = document.getElementById("muñeco");
+  let encriptacion = document.getElementById("encriptacion");
+
+  function resultado(prop) {
+    document.getElementById("muñeco").style.display = prop;
+  }
 
   let textoCifrado = texto
     .replace(/e/gi, "enter")
@@ -13,18 +20,21 @@ function encriptar() {
 
   if (texto.length != 0) {
     document.getElementById("texto").value = textoCifrado;
-    tituloMensaje.textContent = "Texto encriptado con éxito";
+    tituloMensaje.textContent = "";
     parrafo.textContent = "";
-    muñeco.src = "./img/encriptado.jpg";
+    encriptacion.textContent = textoCifrado;
+    resultado("none");
+    document.getElementById("texto").value = "";
   } else {
     muñeco.src = "./img/muñeco.png";
     tituloMensaje.textContent = "Ningun texto fue encontrado";
     alert("Debes ingresar algún texto");
   }
+  document.getElementById("copiar").style.visibility = "visible";
 }
 
 function desencriptar() {
-  let texto = document.getElementById("texto").value;
+  let texto = document.getElementById("encriptacion").textContent;
   let tituloMensaje = document.getElementById("titulo-mensaje");
   let parrafo = document.getElementById("parrafo");
   let muñeco = document.getElementById("muñeco");
@@ -37,7 +47,7 @@ function desencriptar() {
     .replace(/ufat/gi, "u");
 
   if (texto.length != 0) {
-    document.getElementById("texto").value = textoCifrado;
+    document.getElementById("encriptacion").textContent = textoCifrado;
     tituloMensaje.textContent = "Texto desencriptado con éxito";
     parrafo.textContent = "";
     muñeco.src = "./img/desencriptado.jpg";
@@ -49,3 +59,10 @@ function desencriptar() {
     alert("Debes ingresar algún texto");
   }
 }
+
+function copiar() {
+  let textoEncriptado = encriptacion.textContent;
+  navigator.clipboard.writeText(textoEncriptado);
+}
+
+btnCopiar.onclick = copiar;
